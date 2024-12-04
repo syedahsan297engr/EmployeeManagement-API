@@ -1,0 +1,47 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input LoginDto {
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  message: String!
+}
+
+type Message {
+  message: String!
+}
+
+type Mutation {
+  login(loginDto: LoginDto!): LoginResponse!
+  signup(signupDto: SignupDto!): Message!
+}
+
+type Query {
+  currentUser: User!
+  findOne(id: Int!): User!
+  getHello: String!
+}
+
+type Role {
+  id: Int!
+  name: String!
+  users: [User!]!
+}
+
+input SignupDto {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type User {
+  RoleId: Int!
+  email: String!
+  id: Int!
+  name: String!
+  role: Role!
+}

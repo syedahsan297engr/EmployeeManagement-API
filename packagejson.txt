@@ -1,0 +1,133 @@
+explanation of different attributes in packaga.json file
+
+
+
+Dependencies Included by Default (NestJS Project Initialization)
+
+    @nestjs/common: Core NestJS functionality, providing decorators and utilities for building applications.
+    @nestjs/core: The core module of NestJS, responsible for the application context and dependency injection.
+    @nestjs/platform-express: Integration with Express.js, enabling the use of Express as the HTTP server for your NestJS application.
+    reflect-metadata: A required package for decorators and metadata reflection, often used in TypeScript and NestJS.
+    rxjs: Reactive programming library used in NestJS for handling asynchronous data streams.
+
+Dependencies Added by You
+
+    @nestjs/config: Configuration management module for NestJS, allowing you to manage environment variables and application settings.
+    @nestjs/sequelize: Integration for using Sequelize ORM with NestJS, facilitating database interactions.
+    @nestjs/typeorm: Integration for using TypeORM ORM with NestJS, providing another option for database management.
+    @sendgrid/mail: SendGrid client for sending emails, useful for notification features in applications.
+    aws-sdk: AWS SDK for JavaScript, allowing interaction with AWS services like S3, DynamoDB, etc.
+    axios: Promise-based HTTP client for making requests to external APIs.
+    bcrypt: Library for hashing passwords, enhancing security during user authentication.
+    class-transformer: Utility for transforming and serializing objects, especially useful for DTOs (Data Transfer Objects).
+    class-validator: Validation library for validating class properties, often used with DTOs to ensure data integrity.
+    dotenv: Module to load environment variables from a .env file into process.env.
+    jsonwebtoken: Library for creating and verifying JSON Web Tokens (JWTs), commonly used for authentication.
+    nestjs-sequelize-seeder: A seeder library for populating the database with initial data using Sequelize.
+    nodemailer: A module for sending emails, often used in combination with other email services.
+    pg: PostgreSQL client for Node.js, required for interacting with PostgreSQL databases.
+    pg-hstore: A module to parse and serialize PostgreSQL hstore data types.
+    sequelize: A promise-based ORM for Node.js, enabling easy database interactions and migrations.
+    sequelize-typescript: A TypeScript wrapper for Sequelize, providing decorators and types for Sequelize models.
+    typeorm: An ORM for TypeScript and JavaScript (ES7), facilitating data mapping and management.
+    typeorm-naming-strategies: A package for custom naming strategies in TypeORM, allowing for better control over database schema naming conventions.
+
+Brief Use Cases
+
+    @nestjs/common: Provides decorators and utilities for building NestJS applications.
+
+    @nestjs/core: Manages application lifecycle and dependency injection in NestJS.
+
+    @nestjs/platform-express: Enables use of Express.js within a NestJS application.
+
+    reflect-metadata: Supports decorators and metadata reflection needed for NestJS functionality.
+
+    rxjs: Facilitates reactive programming in handling asynchronous data streams.
+
+    @nestjs/config: Manages application configuration using environment variables.
+
+    @nestjs/sequelize: Integrates Sequelize ORM for managing database operations.
+
+    @nestjs/typeorm: Integrates TypeORM for database management within NestJS.
+
+    @sendgrid/mail: Enables sending emails using SendGrid.
+
+    aws-sdk: Interacts with AWS services like S3 or DynamoDB.
+
+    axios: Makes HTTP requests to external APIs.
+
+    bcrypt: Hashes passwords for secure user authentication.
+
+    class-transformer: Transforms plain objects into class instances and vice versa.
+
+    class-validator: Validates class properties to ensure data integrity.
+
+    dotenv: Loads environment variables from a .env file.
+
+    jsonwebtoken: Handles JWT creation and verification for authentication.
+
+    nestjs-sequelize-seeder: Seeds the database with initial data using Sequelize.
+
+    nodemailer: Sends emails programmatically.
+
+    pg: Interacts with PostgreSQL databases.
+
+    pg-hstore: Parses and serializes hstore data types in PostgreSQL.
+
+    sequelize: Manages database operations using an ORM.
+
+    sequelize-typescript: Provides TypeScript support for Sequelize models.
+
+    typeorm: Manages data mapping and operations with an ORM.
+
+    typeorm-naming-strategies: Customizes naming strategies for TypeORM entities.
+
+This is some basic features these dependencies are providing
+
+
+
+Now some scripts related to typeorm
+
+1. "schema:sync"
+
+    Command: npx typeorm-ts-node-commonjs schema:sync
+    Description: Synchronizes the database schema with the current entities. It will create or update tables based on the current model definitions in your application. This is useful during development but not recommended for production.
+
+2. "typeorm:cache"
+
+    Command: npx typeorm-ts-node-commonjs cache:clear
+    Description: Clears the cache of TypeORM. This can be useful if you've made changes that you expect to be reflected in the cached queries.
+
+3. "schema:drop"
+
+    Command: npx typeorm-ts-node-commonjs -d ./src/config/dataSource.ts
+    Description: Drops the entire database schema. This will remove all tables and data. Use with caution, especially in production environments.
+
+4. "migration:create"
+
+    Command: typeorm migration:create ./src/database/migrations/$NAME --timestamp
+    Description: Creates a new migration file with the specified name. This file will be empty and ready for you to define the changes you want to apply to your database schema.
+
+5. "migration:generate"
+
+    Command: npx typeorm-ts-node-commonjs migration:generate ./src/database/migrations/$NAME --timestamp -d ./src/config/dataSource.ts
+    Description: Generates a new migration file based on the current state of the database and the entities. It will compare the current schema with your entities and create a migration file that represents the changes needed to sync them.
+
+6. "migration:show"
+
+    Command: npx typeorm-ts-node-commonjs migration:show -d ./src/config/dataSource.ts
+    Description: Displays the list of migrations that have been applied and those that are pending. This helps in tracking the migration status.
+
+7. "migration:run"
+
+    Command: npx typeorm-ts-node-commonjs migration:run -d ./src/config/dataSource.ts
+    Description: Executes the pending migrations. This applies changes defined in migration files to the database schema.
+
+8. "migration:revert"
+
+    Command: npx typeorm-ts-node-commonjs migration:revert -d ./src/config/dataSource.ts
+    Description: Reverts the last executed migration, undoing the changes made to the database schema. This is useful for rolling back changes if needed.
+
+Summary
+
+These scripts provide a comprehensive toolkit for managing your database schema with TypeORM, allowing you to synchronize, create, and run migrations effectively while also managing your database's state throughout development and deployment.
