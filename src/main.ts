@@ -8,6 +8,7 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     snapshot: true,
+    logger: ['error', 'warn', 'log', 'debug'],
   });
 
   const configService = app.get(ConfigService); // Get the ConfigService instance

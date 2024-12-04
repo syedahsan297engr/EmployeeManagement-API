@@ -15,12 +15,18 @@ import { UserModule } from './user/user.module';
 import { Request, Response } from 'express'; // Import Express types
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { LoggingMiddleware } from './common/logging.middleware';
+import { EmployeeModule } from './employee/employee.module';
+import { AuthGuard } from './common/auth.guard';
+import { RolesGuard } from './common/roles.guard';
+import { JwtModule } from './utils/jwt.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // validation for config
     DatabaseModule, // Add DatabaseModule here
-    UserModule,
     AppResolver,
+    UserModule,
+    JwtModule,
+    EmployeeModule,
     // Adding GraphQL Module
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -35,6 +41,16 @@ import { LoggingMiddleware } from './common/logging.middleware';
     DevtoolsModule.register({
       http: process.env.NODE_ENV !== 'production',
     }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard, // Apply AuthGuard globally
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule implements NestModule {

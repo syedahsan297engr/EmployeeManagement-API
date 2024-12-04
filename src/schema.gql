@@ -2,6 +2,32 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateEmployeeDto {
+  age: Float!
+  attendance: Float!
+  class: String!
+  name: String!
+  subjects: [String!]!
+}
+
+type Employee {
+  age: Int!
+  attendance: Int!
+  class: String!
+  id: Int!
+  name: String!
+  subjects: [String!]!
+}
+
+type EmployeeResponse {
+  age: Int!
+  attendance: Float!
+  class: String!
+  id: Int!
+  name: String!
+  subjects: [String!]!
+}
+
 input LoginDto {
   email: String!
   password: String!
@@ -16,13 +42,37 @@ type Message {
 }
 
 type Mutation {
+  createEmployee(createEmployeeDto: CreateEmployeeDto!): Message!
   login(loginDto: LoginDto!): LoginResponse!
   signup(signupDto: SignupDto!): Message!
+  updateEmployee(updateEmployeeDto: UpdateEmployeeDto!): Message!
+}
+
+type PaginatedEmployeeResponse {
+  employees: [EmployeeResponse!]!
+  nextPage: String
+  page: Int
+  pageSize: Int
+  success: Boolean
+  total: Int!
+}
+
+input PaginationQueryDto {
+  filter: String
+  limit: Float! = 2
+  page: Float! = 1
+  role: String
+  sortBy: String
+  sortOrder: String
+  title: String
+  userId: Float
 }
 
 type Query {
   currentUser: User!
   findOne(id: Int!): User!
+  getEmployee(id: Int!): Employee
+  getEmployees(paginationQuery: PaginationQueryDto!): PaginatedEmployeeResponse!
   getHello: String!
 }
 
@@ -36,6 +86,14 @@ input SignupDto {
   email: String!
   name: String!
   password: String!
+}
+
+input UpdateEmployeeDto {
+  age: Float!
+  attendance: Float!
+  class: String!
+  name: String!
+  subjects: [String!]!
 }
 
 type User {
