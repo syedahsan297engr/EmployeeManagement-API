@@ -60,7 +60,6 @@ type PaginatedEmployeeResponse {
 input PaginationQueryDto {
   limit: Float! = 2
   page: Float! = 1
-  role: String
   sortBy: String
   sortOrder: String
 }

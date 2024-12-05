@@ -30,9 +30,4 @@ export class PaginationQueryDto {
   @IsOptional() // Add this to allow `sortOrder`
   @IsIn(['asc', 'desc']) // Restrict to 'asc' or 'desc'
   sortOrder?: 'asc' | 'desc';
-
-  @Field({ nullable: true }) // Make this field nullable in GraphQL
-  @IsOptional() // Add this to allow `role`
-  @IsIn(['admin', 'user']) // Restrict to 'admin' or 'user'
-  role?: 'admin' | 'user';
 }

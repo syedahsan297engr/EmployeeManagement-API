@@ -1,28 +1,18 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
-//import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './employee.entity';
 import { PaginatedEmployeeResponse } from './dto/employee.dto';
 import { PaginationQueryDto } from '../common/pagination.dto';
 import { Public } from 'src/common/public.decorator';
 import { UrlExtractionInterceptor } from 'src/common/url.interceptor';
-import { LoggedInUserId } from 'src/common/LoggedInUserId.decorator';
-import { LoggedInUserRole } from 'src/common/LoggedInUserRole.decorator';
 import { Role } from 'src/user/dto/role.enum';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { Message } from 'src/common/message.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { RolesGuard } from 'src/common/roles.guard';
 import { Roles } from 'src/common/roles.decorator';
-
-interface GraphQLRequestContext {
-  urlData?: {
-    baseUrl: string;
-    queryParams: Record<string, any>;
-    currUserId: number;
-  };
-}
+import { GraphQLRequestContext } from './dto/request.dto';
 
 @Resolver()
 export class EmployeeResolver {
@@ -46,12 +36,19 @@ export class EmployeeResolver {
     @Args('paginationQuery') paginationQuery: PaginationQueryDto,
     @Context('req') req: GraphQLRequestContext,
   ): Promise<PaginatedEmployeeResponse> {
-    const { page, limit } = paginationQuery;
-    const { baseUrl } = req.urlData || {
+    const { page, limit, sortBy, sortOrder } = paginationQuery;
+    const { baseUrl, queryParams } = req.urlData || {
       baseUrl: '',
       queryParams: {},
     };
-    return await this.employeeService.findAll(page, limit, baseUrl);
+    return await this.employeeService.findAll(
+      page,
+      limit,
+      baseUrl,
+      queryParams,
+      sortBy,
+      sortOrder,
+    );
   }
 
   // Get a single employee by ID -> any logged in user can do this

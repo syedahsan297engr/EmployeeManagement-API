@@ -38,10 +38,26 @@ export class EmployeeService {
     page: number = paginationConfig.defaultPage,
     limit: number = paginationConfig.defaultLimit,
     baseUrl: string,
+    queryParams: any,
+    sortBy?: string,
+    sortOrder: 'asc' | 'desc' = 'asc',
   ): Promise<PaginatedEmployeeResponse> {
+    // Default sorting configuration
+    const defaultSortBy = 'id';
+    const allowedSortFields = ['id', 'name', 'age', 'class', 'attendance'];
+
+    // Validate sortBy field
+    const validSortBy = allowedSortFields.includes(sortBy || '')
+      ? sortBy
+      : defaultSortBy;
+
+    // Construct the TypeORM FindManyOptions with sorting
     const options: FindManyOptions<Employee> = {
       take: limit,
       skip: (page - 1) * limit,
+      order: {
+        [validSortBy as string]: sortOrder, // Dynamically set the sorting field and order
+      },
     };
 
     const [employees, total] =
@@ -66,12 +82,13 @@ export class EmployeeService {
       total,
       page,
       pageSize: limit,
-      nextPage: this.urlGeneratorService.generateNextPageUrl2(
-        nextPage,
-        limit,
-        baseUrl,
-        {},
-      ),
+      nextPage:
+        this.urlGeneratorService.generateNextPageUrl(
+          nextPage,
+          limit,
+          baseUrl,
+          queryParams,
+        ) || '',
     };
   }
 
