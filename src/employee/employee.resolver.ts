@@ -35,7 +35,7 @@ export class EmployeeResolver {
     return { message: 'Employee created successfully' };
   }
 
-  @Public()
+  @Public() // accessible to everyone
   @UseInterceptors(UrlExtractionInterceptor)
   @Query(() => PaginatedEmployeeResponse)
   async getEmployees(
@@ -73,3 +73,10 @@ export class EmployeeResolver {
     return { message: message };
   }
 }
+
+/* 
+scenerios covered here
+RBAC
+Authenticated users access
+Public access
+*/
