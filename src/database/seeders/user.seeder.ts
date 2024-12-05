@@ -10,14 +10,20 @@ export class UserSeeder {
       {
         name: 'Admin',
         email: 'admin@example.com',
-        password: await bcrypt.hash('password123', 10),
-        RoleId: 1, // Admin Role
+        password: await bcrypt.hash('pass123', 10),
+        RoleId: 2, // Admin Role
       },
       {
         name: 'Regular',
         email: 'user@example.com',
         password: await bcrypt.hash('password123', 10),
-        RoleId: 2, // Regular Role
+        RoleId: 1, // Regular Role
+      },
+      {
+        name: 'ahsan',
+        email: 'ahsan@gmail.com',
+        password: await bcrypt.hash('pass123', 10),
+        RoleId: 2, // Admin Role
       },
     ];
 
