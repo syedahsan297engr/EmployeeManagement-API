@@ -88,16 +88,11 @@ export class EmployeeService {
   async update(
     id: number,
     updateEmployeeDto: UpdateEmployeeDto,
-    userRole: Role,
   ): Promise<string> {
     const employee = await this.employeeRepository.findOne({ where: { id } });
 
     if (!employee) {
       throw new NotFoundException('Employee not found');
-    }
-
-    if (userRole !== Role.ADMIN) {
-      return 'You do not have permission to update employee';
     }
 
     Object.assign(employee, updateEmployeeDto);

@@ -10,9 +10,11 @@ import { UrlExtractionInterceptor } from 'src/common/url.interceptor';
 import { LoggedInUserId } from 'src/common/LoggedInUserId.decorator';
 import { LoggedInUserRole } from 'src/common/LoggedInUserRole.decorator';
 import { Role } from 'src/user/dto/role.enum';
-import { UseInterceptors } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { Message } from 'src/common/message.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { RolesGuard } from 'src/common/roles.guard';
+import { Roles } from 'src/common/roles.decorator';
 
 interface GraphQLRequestContext {
   urlData?: {
@@ -28,6 +30,8 @@ export class EmployeeResolver {
 
   //Create a new employee -> only admin role user has this access
   @Mutation(() => Message)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
   async createEmployee(
     @Args('createEmployeeDto') createEmployeeDto: CreateEmployeeDto,
   ): Promise<Message> {
@@ -60,16 +64,13 @@ export class EmployeeResolver {
 
   // Update an employee by ID -> only admin role user has this access
   @Mutation(() => Message)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
   async updateEmployee(
+    @Args('id', { type: () => Int }) id: number,
     @Args('updateEmployeeDto') updateEmployeeDto: UpdateEmployeeDto,
-    @LoggedInUserId() userId: number,
-    @LoggedInUserRole() userRole: Role,
   ): Promise<Message> {
-    const message = await this.employeeService.update(
-      userId,
-      updateEmployeeDto,
-      userRole,
-    );
+    const message = await this.employeeService.update(id, updateEmployeeDto);
     return { message: message };
   }
 }

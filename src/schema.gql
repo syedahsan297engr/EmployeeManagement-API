@@ -45,7 +45,7 @@ type Mutation {
   createEmployee(createEmployeeDto: CreateEmployeeDto!): Message!
   login(loginDto: LoginDto!): LoginResponse!
   signup(signupDto: SignupDto!): Message!
-  updateEmployee(updateEmployeeDto: UpdateEmployeeDto!): Message!
+  updateEmployee(id: Int!, updateEmployeeDto: UpdateEmployeeDto!): Message!
 }
 
 type PaginatedEmployeeResponse {
@@ -66,7 +66,6 @@ input PaginationQueryDto {
 }
 
 type Query {
-  checkAuth: Message!
   currentUser: User!
   findOne(id: Int!): User!
   getEmployee(id: Int!): Employee
@@ -87,11 +86,11 @@ input SignupDto {
 }
 
 input UpdateEmployeeDto {
-  age: Float!
-  attendance: Float!
-  class: String!
-  name: String!
-  subjects: [String!]!
+  age: Float
+  attendance: Float
+  class: String
+  name: String
+  subjects: [String!]
 }
 
 type User {

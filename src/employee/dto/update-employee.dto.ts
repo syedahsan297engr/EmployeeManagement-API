@@ -10,32 +10,32 @@ import {
 
 @InputType()
 export class UpdateEmployeeDto {
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsInt()
   @IsNotEmpty()
-  age: number;
+  age?: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  class: string;
+  class?: string;
 
-  @Field(() => [String]) // Specify the type explicitly
+  @Field(() => [String], { nullable: true }) // Specify the type explicitly
   @IsArray()
   @IsOptional()
-  subjects: string[];
+  subjects?: string[];
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   @IsOptional()
-  attendance: number;
+  attendance?: number;
 }

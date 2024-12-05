@@ -1,17 +1,16 @@
+import { Repository } from 'typeorm';
+import { LoginDto } from './dto/login.dto';
+import { SignupDto } from './dto/signup.dto';
+import { User } from './entities/user.entity';
+import { Role as RoleEnum } from './dto/role.enum';
+import { PasswordHelper } from './password.helper';
+import { JwtService } from 'src/utils/jwt.service';
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SignupDto } from './dto/signup.dto';
-import { LoginDto } from './dto/login.dto';
-import { Role as RoleEnum } from './dto/role.enum';
-import { Request as ExpressRequest } from 'express';
-import { Repository } from 'typeorm';
-import { PasswordHelper } from './password.helper';
-import { JwtService } from 'src/utils/jwt.service';
 
 @Injectable()
 export class UserService {
@@ -81,20 +80,5 @@ export class UserService {
 
     // Return the token without setting the cookie
     return token;
-  }
-
-  validateToken(req: ExpressRequest) {
-    const token = req.cookies['auth_token']; // Get the token from the cookie
-
-    if (!token) {
-      throw new UnauthorizedException('No token provided');
-    }
-
-    try {
-      const decoded = this.jwtService.verifyToken(token); // Verify the token
-      return decoded; // Return the decoded token if valid
-    } catch (error) {
-      throw new UnauthorizedException('Invalid token');
-    }
   }
 }

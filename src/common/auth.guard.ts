@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     // For GraphQL, we extract the context in a different way
     const ctx = GqlExecutionContext.create(context);
-    console.log('ctx', ctx);
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       ctx.getHandler(),
       ctx.getClass(),
