@@ -19,6 +19,7 @@ export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     // For GraphQL, we extract the context in a different way
     const ctx = GqlExecutionContext.create(context);
+    console.log('ctx', ctx);
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       ctx.getHandler(),
       ctx.getClass(),
@@ -29,18 +30,23 @@ export class AuthGuard implements CanActivate {
     }
 
     const req = ctx.getContext().req; // Access the request object from GraphQL context
-    const token = req.cookies['auth_token']; // Retrieve the token from the cookie
+    const authHeader = req.headers['authorization']; // Extract `Authorization` header
 
+    if (!authHeader) {
+      throw new UnauthorizedException('Authorization header is missing');
+    }
+
+    const token = authHeader.split(' ')[1]; // Extract the token from "Bearer <token>"
     if (!token) {
-      throw new UnauthorizedException('No token provided');
+      throw new UnauthorizedException('Token not provided');
     }
 
     try {
-      const decoded = this.jwtService.verifyToken(token);
-      req['user'] = decoded; // Attach user info to the request
-      return true; // Allow the request to proceed
+      const decoded = this.jwtService.verifyToken(token); // Verify token
+      req['user'] = decoded; // Attach decoded payload to request for further use
+      return true; // Allow the request
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid or expired token');
     }
   }
 }

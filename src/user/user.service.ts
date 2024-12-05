@@ -12,7 +12,6 @@ import { Request as ExpressRequest } from 'express';
 import { Repository } from 'typeorm';
 import { PasswordHelper } from './password.helper';
 import { JwtService } from 'src/utils/jwt.service';
-import * as crypto from 'crypto';
 
 @Injectable()
 export class UserService {

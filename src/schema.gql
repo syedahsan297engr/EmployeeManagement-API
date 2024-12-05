@@ -34,7 +34,7 @@ input LoginDto {
 }
 
 type LoginResponse {
-  message: String!
+  token: String!
 }
 
 type Message {
@@ -58,17 +58,15 @@ type PaginatedEmployeeResponse {
 }
 
 input PaginationQueryDto {
-  filter: String
   limit: Float! = 2
   page: Float! = 1
   role: String
   sortBy: String
   sortOrder: String
-  title: String
-  userId: Float
 }
 
 type Query {
+  checkAuth: Message!
   currentUser: User!
   findOne(id: Int!): User!
   getEmployee(id: Int!): Employee

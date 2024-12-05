@@ -35,20 +35,4 @@ export class PaginationQueryDto {
   @IsOptional() // Add this to allow `role`
   @IsIn(['admin', 'user']) // Restrict to 'admin' or 'user'
   role?: 'admin' | 'user';
-
-  @Field({ nullable: true }) // Make this field nullable in GraphQL
-  @IsOptional()
-  @IsString()
-  filter?: string; // Optional filter for post type (e.g., 'my-posts')
-
-  @Field({ nullable: true }) // Make this field nullable in GraphQL
-  @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsInt()
-  userId?: number; // Optional userId for filtering posts by user
-
-  @Field({ nullable: true }) // Make this field nullable in GraphQL
-  @IsOptional()
-  @IsString()
-  title?: string; // Optional title for searching posts
 }
