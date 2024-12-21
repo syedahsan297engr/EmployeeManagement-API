@@ -1,0 +1,4 @@
+What types of test we are going to write:
+Unit tests: Individual service
+Integration test: Modules, Resolvers, Interaction between Modules
+E2E: test the entire flow 
